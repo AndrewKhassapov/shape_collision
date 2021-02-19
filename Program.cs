@@ -84,10 +84,12 @@ namespace shape_collision
 			}
 		}
 
-		/*public sealed class Circle : Shape
+		public sealed class Circle : Shape
 		{
 
 			public double _radius { get; private set; }
+
+			//Bounds.
 			public double _maxX { get { return x + _radius; } }
 			public double _minX { get { return x - _radius; } }
 			public double _maxY { get { return y + _radius; } }
@@ -97,7 +99,12 @@ namespace shape_collision
 			{
 				_radius = radius;
 			}
-		}*/
+
+			public override bool CollidesWith(Shape checkShape)
+			{
+				return false;
+			}
+		}
 
 		public sealed class World
 		{
@@ -107,7 +114,7 @@ namespace shape_collision
 			{
 				BuildWorldShapes();
 				var toPrint = FindIntersections(worldShapes);
-				Console.WriteLine("Shape collisions: {0}", toPrint);
+				//Console.WriteLine("Shape collisions: {0}", toPrint);
 
 				foreach (int key in toPrint.Keys)
 				{
