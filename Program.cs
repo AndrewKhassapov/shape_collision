@@ -20,8 +20,9 @@ namespace shape_collision
 			public double y { get; protected set; }
 
 
-			public Shape(int id, double posX = 0.0, double posY = 0.0)
+			public Shape(int iid, double posX = 0.0, double posY = 0.0)
 			{
+				id = iid;
 				x = posX;
 				y = posY;
 			}
@@ -35,7 +36,6 @@ namespace shape_collision
 
 		public sealed class Rectangle : Shape
 		{
-
 			public double _width { get; private set; }
 			public double _height { get; private set; }
 			private double _widthHalf { get { return _width / 2.0; } }
@@ -47,7 +47,7 @@ namespace shape_collision
 			public double _maxY { get { return y + _heightHalf; } }
 			public double _minY { get { return y - _heightHalf; } }
 
-			public Rectangle(int id, double width, double height, double posX = 0.0, double posY = 0.0) : base(id, posX, posY)
+			public Rectangle(int iid, double width, double height, double posX = 0.0, double posY = 0.0) : base(iid, posX, posY)
 			{
 				_width = width;
 				_height = height;
@@ -99,18 +99,72 @@ namespace shape_collision
 			}
 		}*/
 
+		public sealed class World
+		{
+			public List<Shape> worldShapes = null;
+
+			public World()
+			{
+				BuildWorldShapes();
+				var toPrint = FindIntersections(worldShapes);
+				Console.WriteLine("Shape collisions: {0}", toPrint);
+
+				foreach (int key in toPrint.Keys)
+				{
+					Console.Write("{0} => (", key);
+					foreach (int item in toPrint[key])
+					{
+						Console.Write("{0}, ", item);
+					}
+					Console.WriteLine(")");
+				}
+
+			}
+
+			public List<Shape> BuildWorldShapes()
+			{
+				worldShapes = new List<Shape>();
+				worldShapes.Add(new Rectangle(0, 1.0, 1.0, 0.0, 0.0));
+				worldShapes.Add(new Rectangle(1, 1.0, 2.0, 0.2, 0.2));
+				worldShapes.Add(new Rectangle(2, 2.0, 2.0, 0.5, 0.5));
+				worldShapes.Add(new Rectangle(3, 1.0, 1.0, 0.5, 3.0));
+				return worldShapes; //Output by reference so any changes will affect this List.
+			}
+
+			public Dictionary<int, List<int>> FindIntersections(List<Shape> shapes)
+			{
+				Dictionary<int, List<int>> intersections = new Dictionary<int, List<int>>();
+				for (int i = 0; i < worldShapes.Count; i++)
+				{
+					intersections.Add(worldShapes[i].id, FindShapesIntersected(worldShapes[i]));
+				}
+				return intersections;
+			}
+
+			public List<int> FindShapesIntersected(Shape shape)
+			{
+				List<int> shapeIdsIntersected = new List<int>();
+				for (int i = 0; i < worldShapes.Count; i++)
+				{
+					if (shape.id != worldShapes[i].id)
+					{
+						if (shape.CollidesWith(worldShapes[i]))
+						{
+
+							Console.WriteLine("Shape{0} collides with Shape{1}", shape.id, worldShapes[i].id);
+							shapeIdsIntersected.Add(worldShapes[i].id);
+						}
+					}
+				}
+
+				return shapeIdsIntersected;
+			}
+
+		}
 		///<summary>Main program execution</summary>
 		public static void Main()
 		{
-			List<Shape> worldShapes = new List<Shape>();
-			worldShapes.Add(new Rectangle(0, 1.0, 1.0, 0.0, 0.0));
-			worldShapes.Add(new Rectangle(1, 1.0, 1.0, 0.2, 0.2));
-			worldShapes.Add(new Rectangle(2, 1.0, 1.0, 2.0, 3.0));
-			worldShapes.Add(new Rectangle(3, 1.0, 1.0, 0.5, 3.0));
-
-			Console.WriteLine("Collision is: {0}", worldShapes[0].CollidesWith(worldShapes[1]));
-
-			Console.WriteLine("Hello World");
+			World myWorld = new World();
 		}
 	}
 }
