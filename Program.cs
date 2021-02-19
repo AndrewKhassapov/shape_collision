@@ -63,20 +63,20 @@ namespace shape_collision
 
 					if (x >= collider.x)
 					{
-						collided = (_minX <= collider._maxX) ? true : collided;
+						collided = (_minX <= collider._maxX);
 					}
 					else
 					{
-						collided = (_maxX >= collider._minX) ? true : collided;
+						collided = (_maxX >= collider._minX);
 					}
 
 					if (y >= collider.y)
 					{
-						collided = (_minY <= collider._maxY) ? true : collided;
+						collided = (_minY <= collider._maxY);
 					}
 					else
 					{
-						collided = (_maxY >= collider._minY) ? true : collided;
+						collided = (_maxY >= collider._minY);
 					}
 				}
 
@@ -106,8 +106,9 @@ namespace shape_collision
 			worldShapes.Add(new Rectangle(0, 1.0, 1.0, 0.0, 0.0));
 			worldShapes.Add(new Rectangle(1, 1.0, 1.0, 0.2, 0.2));
 			worldShapes.Add(new Rectangle(2, 1.0, 1.0, 2.0, 3.0));
+			worldShapes.Add(new Rectangle(3, 1.0, 1.0, 0.5, 3.0));
 
-			Console.WriteLine("Collision is: {0}", worldShapes[0].CollidesWith(worldShapes[2]));
+			Console.WriteLine("Collision is: {0}", worldShapes[0].CollidesWith(worldShapes[1]));
 
 			Console.WriteLine("Hello World");
 		}
