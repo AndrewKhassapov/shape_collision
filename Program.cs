@@ -49,6 +49,7 @@ namespace shape_collision
 
 			public Rectangle(int iid, double width, double height, double posX = 0.0, double posY = 0.0) : base(iid, posX, posY)
 			{
+
 				_width = width;
 				_height = height;
 			}
@@ -70,13 +71,16 @@ namespace shape_collision
 						collided = (_maxX >= collider._minX);
 					}
 
-					if (y >= collider.y)
+					if (collided)
 					{
-						collided = (_minY <= collider._maxY);
-					}
-					else
-					{
-						collided = (_maxY >= collider._minY);
+						if (y >= collider.y)
+						{
+							collided = (_minY <= collider._maxY);
+						}
+						else
+						{
+							collided = (_maxY >= collider._minY);
+						}
 					}
 				}
 
@@ -131,10 +135,10 @@ namespace shape_collision
 			public List<Shape> BuildWorldShapes()
 			{
 				worldShapes = new List<Shape>();
-				worldShapes.Add(new Rectangle(0, 1.0, 1.0, 0.0, 0.0));
-				worldShapes.Add(new Rectangle(1, 1.0, 2.0, 0.2, 0.2));
-				worldShapes.Add(new Rectangle(2, 2.0, 2.0, 0.5, 0.5));
-				worldShapes.Add(new Rectangle(3, 1.0, 1.0, 0.5, 3.0));
+				worldShapes.Add(new Rectangle(0, 2.0, 2.0, 0.0, 0.0));
+				worldShapes.Add(new Rectangle(1, 2.0, 2.0, 1.0, 0.0));
+				worldShapes.Add(new Rectangle(2, 2.0, 2.0, 2.5, 0.0));
+				worldShapes.Add(new Rectangle(3, 1.0, 1.0, 5.0, 3.0));
 				return worldShapes; //Output by reference so any changes will affect this List.
 			}
 
