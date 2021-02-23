@@ -23,7 +23,7 @@ Usage is through the ad hoc World class.
 
 ## Contributing
 
-Additional functions and optimization always welcome.
+Additional classes, methods, refactoring and optimization always welcome.
 
 ## License
 
